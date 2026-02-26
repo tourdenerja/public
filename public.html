@@ -1,0 +1,1982 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tour de Nerja – Startsida</title>
+
+<style>
+:root{
+  --bg:#0a0a0b;
+  --text:#f4f4f5;
+  --muted:#a1a1aa;
+  --line:rgba(255,255,255,.12);
+  --surface:rgba(255,255,255,.03);
+  --radius:22px;
+  --max:1080px;
+  --header-h:56px;
+
+  --ok:#16a34a;
+
+  --bar-bg:rgba(255,255,255,.06);
+  --bar-line:rgba(255,255,255,.10);
+  --bar-split:rgba(0,0,0,.55);
+  --bar-mid:rgba(255,255,255,.35);
+
+  --team-a:#7c1d1d;
+  --team-b:#1e3a8a;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+
+a{color:inherit;text-decoration:none}
+
+.wrap{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:22px 18px 80px;
+}
+
+/* ===== Header (behåll) ===== */
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  height:var(--header-h);
+  background:rgba(10,10,11,.78);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  overflow:visible;
+}
+
+.top{
+  position:relative;
+  max-width:var(--max);
+  height:100%;
+  margin:0 auto;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.brand{
+  position:absolute;
+  left:18px;
+  top:0;
+  z-index:3;
+}
+
+.logo{
+  height:100px;
+  width:auto;
+  display:block;
+  position:relative;
+  top:18px;
+}
+
+nav{
+  display:flex;
+  gap:10px;
+  margin-left:140px;
+  align-items:center;
+}
+
+nav a{
+  padding:10px 12px;
+  border-radius:16px;
+  color:var(--muted);
+  white-space:nowrap;
+}
+
+nav a:hover{
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+}
+
+.btn{
+  font-family:inherit;
+  padding:10px 14px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  font-weight:600;
+  white-space:nowrap;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.btn:hover{filter:brightness(1.06)}
+
+/* ===== Hero ===== */
+.hero{padding:72px 0 18px}
+
+h1{
+  margin:0;
+  font-size:clamp(2.2rem,4.6vw + .4rem,4.6rem);
+  line-height:.98;
+}
+
+.lead{
+  margin:14px 0 0;
+  color:var(--muted);
+  max-width:60ch;
+  line-height:1.7;
+  font-size:1rem;
+}
+
+/* ===== Block ===== */
+.block{
+  margin-top:18px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:var(--surface);
+  padding:16px;
+}
+
+/* ===== Poängbar ===== */
+.bar-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:12px;
+  margin-bottom:10px;
+}
+
+.bar-team{
+  font-weight:700;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:48%;
+}
+
+.bar-team.right{text-align:right}
+
+.bar{
+  position:relative;
+  border:1px solid var(--bar-line);
+  border-radius:16px;
+  background:rgba(0,0,0,.18);
+  overflow:hidden;
+}
+
+.bar-grid{
+  display:grid;
+  grid-template-columns:repeat(14,1fr);
+  height:52px;
+}
+
+.seg{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--bar-bg);
+  border-right:1px solid var(--bar-split);
+}
+.seg:last-child{border-right:0}
+
+.seg-text{
+  position:relative;
+  z-index:2;
+  font-weight:700;
+  font-size:1.10rem;
+  letter-spacing:.2px;
+  line-height:1;
+  user-select:none;
+  pointer-events:none;
+  color:var(--text);
+  text-shadow:0 1px 10px rgba(0,0,0,.6);
+}
+
+.seg.a{background:var(--team-a)}
+.seg.b{background:var(--team-b)}
+
+/* 0,5 ruta */
+.seg.half.a{
+  background:linear-gradient(to right,var(--team-a) 50%,var(--bar-bg) 50%);
+}
+.seg.half.b{
+  background:linear-gradient(to left,var(--team-b) 50%,var(--bar-bg) 50%);
+}
+
+.bar::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:50%;
+  width:2px;
+  background:var(--bar-mid);
+  transform:translateX(-1px);
+}
+
+@media(max-width:720px){
+  .logo{height:64px;top:10px}
+  nav{margin-left:92px}
+  .hero{padding-top:56px}
+  .bar-grid{height:44px}
+}
+
+/* =========================================================
+   MATCHBOX + MATCHBAR
+   ========================================================= */
+
+.roundtabs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin:6px 0 10px;
+}
+
+.roundtab{
+  font-family:inherit;
+  padding:10px 14px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.roundtab:hover{filter:brightness(1.06)}
+.roundtab[aria-pressed="true"]{ background:rgba(255,255,255,.10); }
+
+.matches-sub{
+  color:var(--muted);
+  font-weight:700;
+  font-size:1.10rem;
+  text-align:center;
+  margin:2px 0 14px;
+  white-space:normal;
+}
+
+.matches-list{ display:grid; gap:14px; }
+
+.empty{
+  border:1px dashed rgba(255,255,255,.18);
+  background:rgba(0,0,0,.10);
+  border-radius:16px;
+  padding:14px 12px;
+  text-align:center;
+  color:var(--muted);
+  font-weight:800;
+}
+
+/* ===== Matchbar (DYNAMISK via CSS-variabler) ===== */
+.matchbar{
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,.35);
+  box-shadow:0 10px 26px rgba(0,0,0,.35);
+  background: var(--mb-bg, #bfbfbf);
+}
+
+.matchbar-head{
+  padding:10px 14px;
+  background: var(--mb-head-bg, rgba(255,255,255,.18));
+  border-bottom:1px solid rgba(0,0,0,.18);
+  text-align:center;
+  font-weight:600;
+  letter-spacing:.2px;
+  color: var(--mb-head-text, #111);
+}
+
+.matchbar-body{
+  position:relative;
+  display:grid;
+  grid-template-columns: 1fr 220px 1fr;
+  align-items:center;
+  gap:12px;
+  padding:16px 18px;
+  min-height:82px;
+  background: transparent;
+  overflow:hidden;
+  --mid-gap: 140px;
+}
+
+.matchbar-body::before,
+.matchbar-body::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  pointer-events:none;
+  z-index:0;
+  background:transparent;
+}
+
+/* A vinner */
+.matchbar-body.fill-a::before{
+  left:0;
+  width:calc(50% - (var(--mid-gap) / 2));
+  background: var(--team-a);
+  clip-path:polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%);
+}
+
+/* B vinner */
+.matchbar-body.fill-b::after{
+  right:0;
+  width:calc(50% - (var(--mid-gap) / 2));
+  background: var(--team-b);
+  clip-path:polygon(8% 0, 100% 0, 100% 100%, 8% 100%, 0 50%);
+}
+
+/* Delad */
+.matchbar-body.fill-d::before{
+  left:0;
+  width:calc(50% - (var(--mid-gap) / 2));
+  background: var(--mb-draw-fill, rgba(0,0,0,.22));
+  clip-path:polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%);
+}
+.matchbar-body.fill-d::after{
+  right:0;
+  width:calc(50% - (var(--mid-gap) / 2));
+  background: var(--mb-draw-fill, rgba(0,0,0,.22));
+  clip-path:polygon(8% 0, 100% 0, 100% 100%, 8% 100%, 0 50%);
+}
+
+.matchside, .matchcenter{ position:relative; z-index:1; }
+
+.matchside{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-width:0;
+}
+.matchside.left{ align-items:flex-start; text-align:left; }
+.matchside.right{ align-items:flex-end; text-align:right; }
+
+.matchteam{
+  font-weight:700;
+  font-size:1.10rem;
+  line-height:1.1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+  color: var(--mb-text, #111);
+}
+
+.matchplayers{
+  font-weight:600;
+  opacity:.9;
+  font-size:0.9rem;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+  color: var(--mb-text, #111);
+}
+
+.matchcenter{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.matchresult{
+  font-weight:700;
+  font-size:1.50rem;
+  letter-spacing:.4px;
+  line-height:1;
+  padding:6px 0;
+  min-width:140px;
+  color: var(--mb-result-text, #fff);
+}
+
+@media (max-width: 720px){
+  .matchbar-body{
+    grid-template-columns: 1fr 160px 1fr;
+    padding:14px 14px;
+    --mid-gap: 120px;
+    min-height:76px;
+  }
+  .matchresult{font-size:1.6rem; min-width:110px;}
+  .matchteam{font-size:1rem;}
+  .matchplayers{font-size:.88rem;}
+}
+
+/* ===== Publik statistikbox: tabs + tabeller (matchar admin.html) ===== */
+.tabs{
+  margin-top:8px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.tabbtn{
+  padding:10px 14px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  font-weight:700;
+  cursor:pointer;
+}
+.tabbtn.is-active{background:rgba(255,255,255,.10)}
+
+/* Tabeller (layout som admin) */
+.table-wrap{padding:0;margin:0;background:transparent;border:0}
+.scoretable{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  border:0;
+  background:transparent;
+  font-variant-numeric: tabular-nums;
+}
+.tiebreak-note{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:.80rem;
+  font-weight:600;
+  text-align:left;
+}
+.scoretable th, .scoretable td{
+  padding:10px 10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  font-size:.95rem;
+  background:transparent;
+  text-align:center;
+}
+.scoretable thead th{color:var(--muted);font-weight:700}
+.scoretable tbody tr:last-child td{border-bottom:0}
+.scoretable th:first-child, .scoretable td:first-child{text-align:left}
+
+#lagStatsBlock .scoretable, #playerStatsBlock .scoretable{table-layout:fixed}
+#lagStatsBlock .scoretable th:first-child, #lagStatsBlock .scoretable td:first-child{width: 26%}
+#lagStatsBlock .scoretable th:not(:first-child), #lagStatsBlock .scoretable td:not(:first-child){width: calc(74% / 7)}
+#playerStatsBlock .scoretable th:first-child, #playerStatsBlock .scoretable td:first-child{width: 26%}
+#playerStatsBlock .scoretable th:not(:first-child), #playerStatsBlock .scoretable td:not(:first-child){width: calc(74% / 13)}
+#playerStatsBlock thead th{white-space:normal;word-break:break-word;overflow-wrap:anywhere;line-height:1.15;padding-top:8px;padding-bottom:8px}
+
+.team-dot{
+  display:inline-block;
+  width:10px;height:10px;border-radius:999px;
+  margin-right:8px;vertical-align:middle;
+  border:1px solid rgba(255,255,255,.25);
+}
+
+.match-decided-hole{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:4px;
+  text-align:center;
+}
+
+/* Lagpoäng bredvid lagnamnen (flytt från poängbar) */
+.bar-team{
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+}
+.bar-team.right{
+  justify-content:flex-end;
+}
+
+/* Byt ordning ENDAST för vänster lag */
+#teamAName{
+  flex-direction: row-reverse;
+}
+
+/* Säkerställ att höger lag beter sig normalt */
+#teamBName{
+  flex-direction: row;
+}
+
+.bar-team span:not(.team-score){
+  font-size:1.6rem;
+}
+
+.team-score{
+  font-size:1.8rem;
+  font-weight:700;
+}
+
+</style>
+</head>
+
+<body>
+<header>
+  <div class="top">
+    <a class="brand" href="#"><img class="logo" src="tour-de-nerja-logo.png" alt=""></a>
+
+    <nav aria-label="Meny">
+      <a href="#tourdenerja">Tour de Nerja</a>
+      <a href="#statistik">Statistik</a>
+      <a href="#competitionInfoBlock">Tävlingsinformation</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="tourdenerja">
+  <section class="hero">
+    <h1>Tour de Nerja 2026</h1>
+    <p class="lead">
+      Matchplay, lagfokus och tillräckligt många sidobet för att göra matte till en kontaktsport.
+    </p>
+  </section>
+
+  <section class="block" id="scorebarBlock">
+    <div class="bar-head" aria-label="Lag">
+      <div class="bar-team" id="teamAName">Lag A</div>
+      <div class="bar-team right" id="teamBName">Lag B</div>
+    </div>
+
+    <div id="scorebarEmpty" style="display:none"></div>
+
+    <div class="bar" id="scorebar" aria-label="Poängbar">
+      <div class="bar-grid" id="barGrid">
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+        <span class="seg"><span class="seg-text"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="matchesBlock">
+    <div class="roundtabs" id="roundTabs" aria-label="Ronder"></div>
+    <div class="matches-sub" id="matchesSub">—</div>
+    <div class="matches-list" id="matchesList"></div>
+  </section>
+
+
+  <section class="block" id="publicStatsBox">
+    <div class="tabs" role="tablist" aria-label="Statistikflikar">
+      <button class="tabbtn is-active" type="button" role="tab" aria-selected="true"
+              aria-controls="lagStatsBlock" id="tab-lagstats">
+        Lagstatistik
+      </button>
+      <button class="tabbtn" type="button" role="tab" aria-selected="false"
+              aria-controls="playerStatsBlock" id="tab-playerstats">
+        Spelarstatistik
+      </button>
+    </div>
+
+
+    <section class="block" id="lagStatsBlock" style="margin-top:14px">
+      <div class="table-wrap">
+        <table class="scoretable">
+          <thead>
+            <tr>
+              <th title="Lag">Lag</th>
+              <th title="Spelade matcher">SM</th>
+              <th title="Parmatchvinster">PV</th>
+              <th title="Singelmatchvinster">SV</th>
+              <th title="Delade matcher">D</th>
+              <th title="Förlorade matcher">F</th>
+              <th title="Matchhålvinstskillnad">+</th>
+              <th title="Poäng">P</th>
+            </tr>
+          </thead>
+          <tbody id="lagStatsBody"></tbody>
+        </table>
+      </div>
+
+      <div class="tiebreak-note">
+        Vid lika poäng avgör:
+        <br>1) Matchhålvinstskillnad (+).
+        <br>2) Flest vunna singelmatcher (SV).
+      </div>
+    </section>
+
+
+    <section class="block" id="playerStatsBlock" style="display:none; margin-top:14px">
+      <div class="table-wrap">
+        <table class="scoretable">
+          <thead>
+            <tr>
+              <th title="Spelare">Spelare</th>
+              <th title="Spelade matcher">SM</th>
+              <th title="Parmatchvinster">PV</th>
+              <th title="Singelmatchvinster">SV</th>
+              <th title="Delade matcher">D</th>
+              <th title="Förlorade matcher">F</th>
+              <th title="Birdies(1,5p)">B</th>
+              <th title="Eagles(3,5p)">E</th>
+              <th title="Albatross(30p)">A</th>
+              <th title="Hole in One(20p)">HIO</th>
+              <th title="Närmast flagg(1,5p)">NF</th>
+              <th title="Längsta drive(1,5p)">LD</th>
+              <th title="Poäng">P</th>
+              <th title="Finalfördel">FF</th>
+            </tr>
+          </thead>
+          <tbody id="playerStatsBody"></tbody>
+        </table>
+      </div>
+
+      <div class="tiebreak-note">
+        Vid lika poäng avgör:
+        <br>1) Flest singelmatchvinster (SV).
+        <br>2) Flest parmatchvinster (PV).
+        <br>3) Flest albatross (A).
+        <br>4) Flest HIO.
+        <br>5) Flest eagles (E).
+        <br>6) Flest birdies (B).
+      </div>
+    </section>
+
+    <section class="block" id="competitionInfoBlock" style="display:none; margin-top:14px">
+      <div class="section-head" style="margin-bottom:12px">
+        <div class="section-title">Tävlingsinformation</div>
+      </div>
+
+      <div id="competitionInfoContent" style="line-height:1.6;"></div>
+    </section>
+
+  </section>
+
+  <section id="statistik" style="height:1px;"></section>
+</main>
+
+<script>
+(function(){
+  const KEY = 'tdn_admin_state_v2';
+
+  // =========================
+  // Helpers
+  // =========================
+  function setEmpty(el, text){
+    el.innerHTML = `<div class="empty">${text}</div>`;
+  }
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(KEY);
+      if(!raw) return {teams:[], players:[], rounds:[], matches:[], competitionInfoHtml:''};
+      const d = JSON.parse(raw);
+      return sanitizeState({
+        teams: Array.isArray(d.teams) ? d.teams : [],
+        players: Array.isArray(d.players) ? d.players : [],
+        rounds: Array.isArray(d.rounds) ? d.rounds : [],
+        matches: Array.isArray(d.matches) ? d.matches : [],
+        competitionInfoHtml: (typeof d.competitionInfoHtml === 'string') ? d.competitionInfoHtml : ''
+      });
+    }catch(e){
+      return {teams:[], players:[], rounds:[], matches:[], competitionInfoHtml:''};
+    }
+  }
+
+  function sanitizeState(state){
+    state = state && typeof state === 'object' ? state : {teams:[], players:[], rounds:[], matches:[]};
+    state.players = Array.isArray(state.players) ? state.players : [];
+    state.matches = Array.isArray(state.matches) ? state.matches : [];
+
+    const valid = new Set(state.players.map(p => p && p.id).filter(Boolean));
+
+    state.matches.forEach(m => {
+      if(!m) return;
+
+      m.teamA = (Array.isArray(m.teamA) ? m.teamA : []).filter(pid => valid.has(pid));
+      m.teamB = (Array.isArray(m.teamB) ? m.teamB : []).filter(pid => valid.has(pid));
+
+      if(m.book && m.book.byPlayer && typeof m.book.byPlayer === 'object'){
+        Object.keys(m.book.byPlayer).forEach(pid => {
+          if(!valid.has(pid)) delete m.book.byPlayer[pid];
+        });
+      }
+
+      const aOk = m.teamA.length > 0;
+      const bOk = m.teamB.length > 0;
+      if(!aOk || !bOk){
+        m.isClosed = false;
+        m.holes = Array(18).fill(null);
+        delete m.book;
+      }
+    });
+
+    return state;
+  }
+
+  function playerNameById(state, id){
+    const p = (state.players || []).find(x => x && x.id === id);
+    return p ? (p.name || '') : '';
+  }
+
+  function fmtScore(n){
+    const x = Number(n) || 0;
+    return (x % 1 === 0) ? String(x) : String(x).replace('.', ',');
+  }
+
+  function contrastTextColor(bg){
+    const s = String(bg || '').trim();
+
+    if(s.startsWith('#')){
+      let r,g,b;
+      if(s.length === 4){
+        r = parseInt(s[1]+s[1],16);
+        g = parseInt(s[2]+s[2],16);
+        b = parseInt(s[3]+s[3],16);
+      }else if(s.length === 7){
+        r = parseInt(s.slice(1,3),16);
+        g = parseInt(s.slice(3,5),16);
+        b = parseInt(s.slice(5,7),16);
+      }else{
+        return '#fff';
+      }
+      return _contrastFromRgb(r,g,b);
+    }
+
+    const m = s.match(/rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*[\d.]+)?\s*\)/i);
+    if(m){
+      const r = Math.max(0, Math.min(255, Number(m[1])));
+      const g = Math.max(0, Math.min(255, Number(m[2])));
+      const b = Math.max(0, Math.min(255, Number(m[3])));
+      return _contrastFromRgb(r,g,b);
+    }
+
+    return '#fff';
+
+    function _contrastFromRgb(r,g,b){
+      const srgb = [r,g,b].map(v => {
+        const x = v/255;
+        return x <= 0.03928 ? x/12.92 : Math.pow((x+0.055)/1.055, 2.4);
+      });
+      const L = 0.2126*srgb[0] + 0.7152*srgb[1] + 0.0722*srgb[2];
+      return (L > 0.52) ? '#000' : '#fff';
+    }
+  }
+
+  function parseColorToRgb(c){
+    const s = String(c || '').trim();
+
+    if(s.startsWith('#')){
+      let r,g,b;
+      if(s.length === 4){
+        r = parseInt(s[1]+s[1],16);
+        g = parseInt(s[2]+s[2],16);
+        b = parseInt(s[3]+s[3],16);
+        return {r,g,b,a:1};
+      }
+      if(s.length === 7){
+        r = parseInt(s.slice(1,3),16);
+        g = parseInt(s.slice(3,5),16);
+        b = parseInt(s.slice(5,7),16);
+        return {r,g,b,a:1};
+      }
+    }
+
+    const m = s.match(/rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)/i);
+    if(m){
+      const r = Math.max(0, Math.min(255, Number(m[1])||0));
+      const g = Math.max(0, Math.min(255, Number(m[2])||0));
+      const b = Math.max(0, Math.min(255, Number(m[3])||0));
+      const a = (m[4] == null) ? 1 : Math.max(0, Math.min(1, Number(m[4])||0));
+      return {r,g,b,a};
+    }
+
+    return null;
+  }
+
+  function blendOver(bgTop, bgBottom){
+    const top = parseColorToRgb(bgTop);
+    const bot = parseColorToRgb(bgBottom) || {r:10,g:10,b:11,a:1};
+    if(!top) return bot;
+    const a = (top.a == null ? 1 : top.a);
+    const r = Math.round(top.r * a + bot.r * (1 - a));
+    const g = Math.round(top.g * a + bot.g * (1 - a));
+    const b = Math.round(top.b * a + bot.b * (1 - a));
+    return {r,g,b,a:1};
+  }
+
+  function contrastTextFromRgb(rgb){
+    const srgb = [rgb.r,rgb.g,rgb.b].map(v => {
+      const x = v/255;
+      return x <= 0.03928 ? x/12.92 : Math.pow((x+0.055)/1.055, 2.4);
+    });
+    const L = 0.2126*srgb[0] + 0.7152*srgb[1] + 0.0722*srgb[2];
+    return (L > 0.52) ? '#000' : '#fff';
+  }
+
+  function applyMatchTextContrast(bar, wf, teamAColor, teamBColor){
+    const leftWrap  = bar.querySelector('.matchside.left');
+    const rightWrap = bar.querySelector('.matchside.right');
+
+    const leftEls  = leftWrap  ? leftWrap.querySelectorAll('.matchteam, .matchplayers') : [];
+    const rightEls = rightWrap ? rightWrap.querySelectorAll('.matchteam, .matchplayers') : [];
+
+    const base =
+      getComputedStyle(bar).getPropertyValue('--mb-text').trim() ||
+      'rgba(255,255,255,.95)';
+
+    [...leftEls, ...rightEls].forEach(el => { el.style.color = base; });
+
+    if(wf === 'A'){
+      const c = contrastTextColor(teamAColor);
+      leftEls.forEach(el => el.style.color = c);
+    }
+    else if(wf === 'B'){
+      const c = contrastTextColor(teamBColor);
+      rightEls.forEach(el => el.style.color = c);
+    }
+    else if(wf === 'D'){
+      leftEls.forEach(el => el.style.color = '#fff');
+      rightEls.forEach(el => el.style.color = '#fff');
+    }
+  }
+
+  function applyMatchBarTheme(bar, statusCls){
+    const themes = {
+      'is-scheduled': {
+        bg:       'rgba(50,50,50,.22)',
+        headBg:   'rgba(50,50,50,.22)',
+        headText: 'rgba(255,255,255,.95)',
+        text:     'rgba(255,255,255,.95)',
+        drawFill: 'rgba(0,0,0,.22)'
+      },
+      'is-open': {
+        bg:       'rgba(255,255,255,.12)',
+        headBg:   'rgba(255,255,255,.16)',
+        headText: 'rgba(255,255,255,.95)',
+        text:     'rgba(255,255,255,.95)',
+        drawFill: 'rgba(0,0,0,.22)'
+      },
+      'is-closed': {
+        bg:       'rgba(255,255,255,.12)',
+        headBg:   'rgba(255,255,255,.16)',
+        headText: 'rgba(255,255,255,.95)',
+        text:     'rgba(255,255,255,.95)',
+        drawFill: 'rgba(0,0,0,.22)'
+      }
+    };
+
+    const t = themes[statusCls] || themes['is-open'];
+
+    bar.style.setProperty('--mb-bg', t.bg);
+    bar.style.setProperty('--mb-head-bg', t.headBg);
+    bar.style.setProperty('--mb-head-text', t.headText);
+    bar.style.setProperty('--mb-text', t.text);
+    bar.style.setProperty('--mb-draw-fill', t.drawFill);
+
+    const rootBg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#0a0a0b';
+    const blended = blendOver(t.bg, rootBg);
+    bar.style.setProperty('--mb-result-text', contrastTextFromRgb(blended));
+  }
+
+  // =========================
+  // SCOREBAR (lagpoäng i baren = antal matchvinster + delade 0,5)
+  // =========================
+  function computeTeamPoints(state){
+    const teams = state.teams || [];
+    const teamA = teams[0] || null;
+    const teamB = teams[1] || null;
+
+    const out = {
+      teamAName: teamA?.name || 'Lag A',
+      teamBName: teamB?.name || 'Lag B',
+      teamAColor: teamA?.color || '#7c1d1d',
+      teamBColor: teamB?.color || '#1e3a8a',
+      A: 0,
+      B: 0
+    };
+
+    if(!teamA || !teamB) return out;
+
+    (state.matches || []).forEach(m => {
+      if(!m || !m.isClosed) return;
+      const w = String(m?.book?.winner || '');
+      if(w === 'A') out.A += 1;
+      else if(w === 'B') out.B += 1;
+      else if(w === 'D'){ out.A += 0.5; out.B += 0.5; }
+    });
+
+    return out;
+  }
+
+  function paintBarFromOutside(aPts, bPts){
+    const grid = document.getElementById('barGrid');
+    if(!grid) return;
+
+    const segs = Array.from(grid.querySelectorAll('.seg'));
+    if(segs.length !== 14) return;
+
+    // Reset
+    segs.forEach(s => { s.className = 'seg'; });
+
+    // We have 14 segments. Historically 7+7, but if a team goes above 7
+    // we let the color continue past the midpoint.
+    const clamp = v => Math.max(0, Math.min(14, v));
+
+    const a = clamp(Number(aPts) || 0);
+    const b = clamp(Number(bPts) || 0);
+
+    const aWhole = Math.floor(a);
+    const aHalf  = (a - aWhole) >= 0.5;
+
+    const bWhole = Math.floor(b);
+    const bHalf  = (b - bWhole) >= 0.5;
+
+    // Paint A from the left
+    for(let k=0;k<aWhole;k++){
+      const i = k;
+      if(segs[i]) segs[i].classList.add('a');
+    }
+    if(aHalf){
+      const i = aWhole;
+      if(i >= 0 && i <= 13 && segs[i]) segs[i].classList.add('half','a');
+    }
+
+    // Paint B from the right
+    for(let k=0;k<bWhole;k++){
+      const i = 13 - k;
+      if(segs[i]) segs[i].classList.add('b');
+    }
+    if(bHalf){
+      const i = 13 - bWhole;
+      if(i >= 0 && i <= 13 && segs[i]) segs[i].classList.add('half','b');
+    }
+
+    // If they ever overlap (should be rare), prefer the leader on overlapping segments.
+    for(let i=0;i<segs.length;i++){
+      const hasA = segs[i].classList.contains('a');
+      const hasB = segs[i].classList.contains('b');
+      if(hasA && hasB){
+        if(a > b){
+          segs[i].classList.remove('b');
+        }else if(b > a){
+          segs[i].classList.remove('a');
+        }else{
+          // tie: leave as-is (both) so CSS can decide, or you can style .a.b if you want
+        }
+      }
+    }
+  }
+
+  function renderScorebar(){
+    const state = loadState();
+    const t = computeTeamPoints(state);
+
+    const aName = document.getElementById('teamAName');
+    const bName = document.getElementById('teamBName');
+
+    function setTeamName(el, name, pts){
+      if(!el) return;
+      el.innerHTML = `
+        <span>${name}</span>
+        <span class="team-score">${pts}</span>
+      `;
+    }
+    const empty = document.getElementById('scorebarEmpty');
+    const grid  = document.getElementById('barGrid');
+
+    const hasTwoTeams = Array.isArray(state.teams) && state.teams.length >= 2;
+
+    if(!hasTwoTeams){
+      if(aName) setTeamName(aName, '—', '');
+      if(bName) setTeamName(bName, '—', '');
+
+      if(grid){
+        const segs = Array.from(grid.querySelectorAll('.seg'));
+        segs.forEach(s => {
+          s.className = 'seg';
+          const tx = s.querySelector('.seg-text');
+          if(tx) tx.textContent = '';
+        });
+      }
+
+      if(empty){
+        empty.style.display = '';
+        setEmpty(empty, 'Inga lag tillagd.');
+      }
+      return;
+    }
+
+    if(empty) empty.style.display = 'none';
+
+    if(aName) setTeamName(aName, t.teamAName, fmtScore(t.A));
+    if(bName) setTeamName(bName, t.teamBName, fmtScore(t.B));
+
+    document.documentElement.style.setProperty('--team-a', t.teamAColor);
+    document.documentElement.style.setProperty('--team-b', t.teamBColor);
+
+    paintBarFromOutside(t.A, t.B);
+
+    if(!grid) return;
+    const segs = Array.from(grid.querySelectorAll('.seg'));
+    if(segs.length !== 14) return;
+
+    segs.forEach(s => {
+      const tx = s.querySelector('.seg-text');
+      if(tx) tx.textContent = '';
+    });
+  }
+
+  // =========================
+  // MATCHBARS
+  // =========================
+  function roundsSorted(state){
+    return (state.rounds || []).slice().sort((a,b) => (a.date || '').localeCompare(b.date || ''));
+  }
+
+  function matchesForRound(state, roundId){
+    return (state.matches || [])
+      .filter(m => m && m.roundId === roundId)
+      .slice()
+      .sort((a,b) => (Number(a.no)||0) - (Number(b.no)||0));
+  }
+
+  function roundLabel(i, r){
+    const no = i + 1;
+    const bits = [];
+    if(r?.date) bits.push(r.date);
+    if(r?.course) bits.push(r.course);
+    return `Runda ${no}` + (bits.length ? ` • ${bits.join(' – ')}` : '');
+  }
+
+  function matchTypeLabel(m){
+    const t = String(m?.type || '').toLowerCase();
+    if(t.includes('par')) return 'Bästboll';
+    if(t.includes('sing')) return 'Singel';
+    return m?.type ? String(m.type) : 'Singel';
+  }
+
+  function playersText(state, ids){
+    const arr = Array.isArray(ids) ? ids.filter(Boolean) : [];
+    const names = arr.map(id => playerNameById(state, id)).filter(Boolean);
+    return names.length ? names.join(' / ') : '—';
+  }
+
+  function hasBothSidesPlayers(m){
+    const aHas = Array.isArray(m?.teamA) && m.teamA.filter(Boolean).length > 0;
+    const bHas = Array.isArray(m?.teamB) && m.teamB.filter(Boolean).length > 0;
+    return aHas && bHas;
+  }
+
+  function matchStatusClass(m){
+    if(m?.isClosed === true) return 'is-closed';
+    if(hasBothSidesPlayers(m)) return 'is-open';
+    return 'is-scheduled';
+  }
+
+  function matchStatusLabelFromClass(cls){
+    if(cls === 'is-closed') return 'Avslutad';
+    if(cls === 'is-open') return 'Öppen';
+    return 'Uppsatt';
+  }
+
+  function winnerForFill(m){
+    if(m?.isClosed !== true) return '';
+    const w = String(m?.book?.winner || '');
+    if(w === 'A' || w === 'B' || w === 'D') return w;
+    return '';
+  }
+
+  function resultTextForMatch(m){
+    const closed = (m?.isClosed === true);
+
+    if(!closed){
+      if(!hasBothSidesPlayers(m)) return '-';
+      return 'AS';
+    }
+
+    const w = String(m?.book?.winner || '');
+    const wonOnHole = Number(m?.book?.wonOnHole) || 0;
+    const up = Number(m?.book?.resultUp) || 0;
+
+    if(w === 'D') return 'Delad';
+
+    if(w === 'A' || w === 'B'){
+      if(wonOnHole >= 1 && wonOnHole <= 17){
+        const remaining = 18 - wonOnHole;
+        return `${Math.max(1, up)}&${remaining}`;
+      }
+      if(wonOnHole === 18){
+        return `${Math.max(1, up)}UP`;
+      }
+      return `${Math.max(1, up)}UP`;
+    }
+
+    return 'AS';
+  }
+
+  function buildMatchBar(state, m){
+    const bar = document.createElement('div');
+    bar.className = 'matchbar';
+
+    const statusCls = matchStatusClass(m);
+    bar.classList.add(statusCls);
+
+    applyMatchBarTheme(bar, statusCls);
+
+    const head = document.createElement('div');
+    head.className = 'matchbar-head';
+
+    const no = Number(m?.no) || 0;
+    const type = matchTypeLabel(m);
+    const status = matchStatusLabelFromClass(statusCls);
+
+    let headText = `Match ${no || ''} - ${type} - ${status}`;
+    if(m?.isClosed === true && m?.book?.wonOnHole){
+      headText += ` - Avgjordes på hål ${Number(m.book.wonOnHole)}`;
+    }
+    head.textContent = headText.trim();
+
+    const body = document.createElement('div');
+    body.className = 'matchbar-body';
+
+    body.classList.remove('fill-a','fill-b','fill-d');
+    const wf = winnerForFill(m);
+    if(wf === 'A') body.classList.add('fill-a');
+    else if(wf === 'B') body.classList.add('fill-b');
+    else if(wf === 'D') body.classList.add('fill-d');
+
+    const left = document.createElement('div');
+    left.className = 'matchside left';
+    left.innerHTML = `
+      <div class="matchteam">${(state.teams?.[0]?.name) || 'Lagnamn'}</div>
+      <div class="matchplayers">${playersText(state, m?.teamA)}</div>
+    `;
+
+    const center = document.createElement('div');
+    center.className = 'matchcenter';
+    // Result + decided hole (directly under result)
+    center.innerHTML = '';
+    const resEl = document.createElement('div');
+    resEl.className = 'matchresult';
+    resEl.textContent = String(resultTextForMatch(m) || '');
+    center.appendChild(resEl);
+
+    const right = document.createElement('div');
+    right.className = 'matchside right';
+    right.innerHTML = `
+      <div class="matchteam">${(state.teams?.[1]?.name) || 'Lagnamn'}</div>
+      <div class="matchplayers">${playersText(state, m?.teamB)}</div>
+    `;
+
+    body.appendChild(left);
+    body.appendChild(center);
+    body.appendChild(right);
+
+    bar.appendChild(head);
+    bar.appendChild(body);
+
+    const teamAColor = state.teams?.[0]?.color || '#7c1d1d';
+    const teamBColor = state.teams?.[1]?.color || '#1e3a8a';
+    applyMatchTextContrast(bar, wf, teamAColor, teamBColor);
+
+    return bar;
+  }
+
+  function renderRoundsAndMatches(){
+    const state = loadState();
+
+    const tabs = document.getElementById('roundTabs');
+    const sub  = document.getElementById('matchesSub');
+    const list = document.getElementById('matchesList');
+    if(!tabs || !sub || !list) return;
+
+    const rounds = roundsSorted(state);
+
+    if(rounds.length === 0){
+      tabs.innerHTML = '';
+      sub.textContent = 'Inga ronder tillagd.';
+      setEmpty(list, 'Inga matcher tillagd.');
+      return;
+    }
+
+    let selected = tabs.getAttribute('data-selected') || '';
+    if(!selected || !rounds.some(r => r.id === selected)){
+      selected = rounds[0].id;
+      tabs.setAttribute('data-selected', selected);
+    }
+
+    tabs.innerHTML = '';
+    rounds.forEach((r, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'roundtab';
+      btn.textContent = `Runda ${i+1}`;
+      btn.setAttribute('aria-pressed', (r.id === selected) ? 'true' : 'false');
+      btn.title = roundLabel(i, r);
+      btn.addEventListener('click', () => {
+        tabs.setAttribute('data-selected', r.id);
+        renderRoundsAndMatches();
+      });
+      tabs.appendChild(btn);
+    });
+
+    const roundIndex = rounds.findIndex(r => r.id === selected);
+    const selectedRound = rounds[roundIndex];
+    const ms = matchesForRound(state, selected);
+
+    sub.textContent = `${roundLabel(roundIndex, selectedRound)} • ${ms.length} matcher`;
+
+    list.innerHTML = '';
+    if(ms.length === 0){
+      setEmpty(list, 'Inga matcher tillagd.');
+      return;
+    }
+
+    ms.forEach(m => list.appendChild(buildMatchBar(state, m)));
+  }
+
+  // =========================
+  // STATISTIK – SPEGLING AV admin.html
+  // =========================
+  function fmtPts(x){
+    const n = Number(x) || 0;
+    return (n % 1 === 0) ? String(n) : n.toFixed(1).replace('.', ',');
+  }
+
+  function getTeamsAB(state){
+    const teams = Array.isArray(state.teams) ? state.teams.slice() : [];
+    const A = teams[0] || null;
+    const B = teams[1] || null;
+    return {A,B};
+  }
+
+  function teamColorById(state, teamId){
+    const t = (state.teams || []).find(x => x && x.id === teamId);
+    return t?.color || 'rgba(255,255,255,.22)';
+  }
+
+  function computeMatchResultText(holes){
+    const h = Array.isArray(holes) ? holes : [];
+    let a = 0, b = 0, played = 0;
+
+    for(let i=0;i<18;i++){
+      const v = (i < h.length) ? h[i] : null;
+      if(v === 'A'){ a++; played++; }
+      else if(v === 'B'){ b++; played++; }
+      else if(v === 'H'){ played++; }
+    }
+    const remaining = 18 - played;
+    const diff = a - b;
+    const absDiff = Math.abs(diff);
+
+    if(absDiff > remaining) return absDiff + '&' + remaining;
+    if(played === 18){
+      if(diff === 0) return 'Tied';
+      return absDiff + 'UP';
+    }
+    if(diff === 0) return 'AS (' + remaining + ')';
+    return absDiff + 'UP (' + remaining + ')';
+  }
+
+  function computeOutcomeFromHoles(holes){
+    const h = Array.isArray(holes) ? holes : [];
+    let a = 0, b = 0, played = 0;
+    let clinchHole = 0;
+    let clinchUp = 0;
+    let clinchY = 0;
+
+    for(let i=0;i<18;i++){
+      const v = (i < h.length) ? h[i] : null;
+      if(v === 'A'){ a++; played++; }
+      else if(v === 'B'){ b++; played++; }
+      else if(v === 'H'){ played++; }
+      else { continue; }
+
+      const remaining = 18 - played;
+      const diff = a - b;
+      const absDiff = Math.abs(diff);
+
+      if(!clinchHole && absDiff > remaining){
+        clinchHole = i + 1;
+        clinchUp = absDiff;
+        clinchY = remaining;
+      }
+    }
+
+    if(clinchHole){
+      return {
+        decided: true,
+        winner: (a - b) > 0 ? 'A' : 'B',
+        wonOnHole: clinchHole,
+        resultUp: clinchUp,
+        text: clinchUp + '&' + clinchY
+      };
+    }
+
+    if(played === 18){
+      if(a === b) return { decided: true, winner: 'D', wonOnHole: '', resultUp: 0, text: 'Tied' };
+      return {
+        decided: true,
+        winner: (a - b) > 0 ? 'A' : 'B',
+        wonOnHole: 18,
+        resultUp: Math.abs(a - b),
+        text: Math.abs(a - b) + 'UP'
+      };
+    }
+
+    return { decided: false, winner: '', wonOnHole: '', resultUp: 0, text: computeMatchResultText(h) };
+  }
+
+  function getClosedWinnerAndHole(m){
+    const holes = (m && Array.isArray(m.holes)) ? m.holes : [];
+    const anyPlayed = Array.isArray(holes) && holes.some(v => v === 'A' || v === 'B' || v === 'H');
+    if(anyPlayed){
+      const out = computeOutcomeFromHoles(holes);
+      if(out.decided){
+        return {
+          winner: out.winner,
+          wonOnHole: Number(out.wonOnHole) || 0,
+          resultUp: Number(out.resultUp) || 0
+        };
+      }
+    }
+    const w = String(m?.book?.winner || '');
+    const h = Number(m?.book?.wonOnHole) || 0;
+    const up = Number(m?.book?.resultUp) || 0;
+    if(w === 'A' || w === 'B' || w === 'D') return { winner:w, wonOnHole:h, resultUp:up };
+    return { winner:'', wonOnHole:0, resultUp:0 };
+  }
+
+  function applyTeamResult(A, B, winner, wonOnHole, matchType){
+    if(winner === 'A'){
+      B.L++;
+      if(matchType === 'Par'){
+        A.W++;       // PV
+        A.P += 1;
+      }else if(matchType === 'Singel'){
+        A.S = (A.S || 0) + 1; // SV
+        A.P += 1;
+      }
+    }else if(winner === 'B'){
+      A.L++;
+      if(matchType === 'Par'){
+        B.W++;       // PV
+        B.P += 1;
+      }else if(matchType === 'Singel'){
+        B.S = (B.S || 0) + 1; // SV
+        B.P += 1;
+      }
+    }else if(winner === 'D'){
+      A.D++;
+      B.D++;
+      A.P += 0.5;
+      B.P += 0.5;
+    }else{
+      return;
+    }
+
+    // + endast vid avgjord match: delta = 19 - wonOnHole
+    if((winner === 'A' || winner === 'B') && wonOnHole >= 1 && wonOnHole <= 18){
+      const delta = 19 - wonOnHole;
+      if(winner === 'A'){
+        A.PM += delta;
+        // Förlorande lag påverkas inte (ingen minuspoäng)
+      }else{
+        B.PM += delta;
+        // Förlorande lag påverkas inte (ingen minuspoäng)
+      }
+    }
+  }
+
+  function computeTeamStats(state){
+    const teams = Array.isArray(state.teams) ? state.teams.slice() : [];
+    const { A: teamA, B: teamB } = getTeamsAB(state);
+
+    const ts = {};
+    teams.forEach(t => ts[t.id] = {
+      SM:0,  // Spelade matcher
+      W:0,   // PV
+      S:0,   // SV
+      L:0,   // F
+      D:0,
+      PM:0,  // +
+      P:0
+    });
+
+    if(!teamA || !teamB) return { teams, ts, leadingTeamId: '' };
+
+    const A = ts[teamA.id];
+    const B = ts[teamB.id];
+    const matches = Array.isArray(state.matches) ? state.matches : [];
+
+    matches.forEach(m => {
+      if(!m?.isClosed) return;
+      const res = getClosedWinnerAndHole(m);
+
+      A.SM += 1;
+      B.SM += 1;
+
+      applyTeamResult(A, B, res.winner, res.wonOnHole, m.type);
+    });
+
+    let leadingTeamId = '';
+
+    if(A.P > B.P){
+      leadingTeamId = teamA.id;
+    }else if(B.P > A.P){
+      leadingTeamId = teamB.id;
+    }else if(A.PM > B.PM){
+      leadingTeamId = teamA.id;
+    }else if(B.PM > A.PM){
+      leadingTeamId = teamB.id;
+    }else{
+      // tiebreak: flest vunna singelmatcher
+      const aSingles = (A.S || 0);
+      const bSingles = (B.S || 0);
+
+      if(aSingles > bSingles) leadingTeamId = teamA.id;
+      else if(bSingles > aSingles) leadingTeamId = teamB.id;
+      else leadingTeamId = '';
+    }
+
+    return { teams, ts, leadingTeamId };
+  }
+
+  function renderLagStats(state){
+    const body = document.getElementById('lagStatsBody');
+    if(!body) return;
+
+    body.innerHTML = '';
+
+    const { teams, ts } = computeTeamStats(state);
+
+    if(teams.length === 0){
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 8;
+      td.textContent = 'Inga lag skapade ännu.';
+      td.style.textAlign = 'left';
+      td.style.color = 'var(--muted)';
+      tr.appendChild(td);
+      body.appendChild(tr);
+      return;
+    }
+
+    function fmtTeamPts(x){
+      return (x % 1 === 0) ? String(x) : x.toFixed(1).replace('.', ',');
+    }
+
+    // ✅ Default-sort (som admin): P ↓, + (PM) ↓, SV ↓, PV ↓, namn
+    const teamsSorted = teams.slice().sort((t1, t2) => {
+      const a = ts[t1.id] || {};
+      const b = ts[t2.id] || {};
+
+      const aP  = Number(a.P)  || 0;
+      const bP  = Number(b.P)  || 0;
+      if(bP !== aP) return bP - aP;
+
+      const aPM = Number(a.PM) || 0;
+      const bPM = Number(b.PM) || 0;
+      if(bPM !== aPM) return bPM - aPM;
+
+      const aSV = Number(a.S)  || 0; // SV ligger som S i teamstats
+      const bSV = Number(b.S)  || 0;
+      if(bSV !== aSV) return bSV - aSV;
+
+      const aPV = Number(a.W)  || 0; // PV ligger som W i teamstats
+      const bPV = Number(b.W)  || 0;
+      if(bPV !== aPV) return bPV - aPV;
+
+      return (t1.name || '').localeCompare(t2.name || '', 'sv');
+    });
+
+    teamsSorted.forEach(t => {
+      const tr = document.createElement('tr');
+
+      const tdName = document.createElement('td');
+      const dot = document.createElement('span');
+      dot.className = 'team-dot';
+      dot.style.background = t.color || 'rgba(255,255,255,22)';
+      const name = document.createElement('span');
+      name.textContent = t.name || '';
+      tdName.appendChild(dot);
+      tdName.appendChild(name);
+      tr.appendChild(tdName);
+
+      const s = ts[t.id] || {W:0,L:0,D:0,PM:0,P:0};
+
+      const cells = [
+        s.SM || 0,   // SM
+        s.W || 0,    // PV
+        s.S || 0,    // SV
+        s.D || 0,    // D
+        s.L || 0,    // F
+        s.PM || 0,   // +
+        fmtTeamPts(s.P || 0)
+      ];
+
+      cells.forEach(v => {
+        const td = document.createElement('td');
+        td.textContent = String(v);
+        tr.appendChild(td);
+      });
+
+      body.appendChild(tr);
+    });
+  }
+
+  function computeTeamTotalsForFF(state){
+    const { leadingTeamId } = computeTeamStats(state);
+    return { leadingTeamId: leadingTeamId || '' };
+  }
+
+  function computePlayerStats(state){
+    const players = Array.isArray(state.players) ? state.players.slice() : [];
+    players.sort((a,b) => (a.name||'').localeCompare(b.name||'', 'sv'));
+
+    const ps = {};
+    players.forEach(p => {
+      ps[p.id] = { SM:0, PV:0, SV:0, F:0, D:0, B:0, E:0, A:0, HIO:0, NF:0, LD:0, P:0, FF:0 };
+    });
+
+    const matchesAll = Array.isArray(state.matches) ? state.matches : [];
+
+    const W_BIRDIE = 1.5;
+    const W_EAGLE = 3.5;
+    const W_ALBATROSS = 30;
+    const W_HIO = 20;
+    const W_NF = 1.5;
+    const W_LD = 1.5;
+
+    matchesAll.forEach(m => {
+      if(!m || !m.isClosed) return;
+
+      const res = getClosedWinnerAndHole(m);
+      const winner = res.winner; // A|B|D
+      if(!winner) return;
+
+      const value = Number(m.value) || 0;
+
+      const teamA = Array.isArray(m.teamA) ? m.teamA.filter(Boolean) : [];
+      const teamB = Array.isArray(m.teamB) ? m.teamB.filter(Boolean) : [];
+      const playersInMatch = [...teamA, ...teamB];
+
+      // Spelade matcher
+      playersInMatch.forEach(pid => {
+        if(ps[pid]) ps[pid].SM += 1;
+      });
+
+      // Matchpoäng + PV/SV/D/F
+      if(winner === 'A' || winner === 'B'){
+        const winners = (winner === 'A') ? teamA : teamB;
+        const losers  = (winner === 'A') ? teamB : teamA;
+
+        losers.forEach(pid => {
+          if(ps[pid]) ps[pid].F += 1;
+        });
+
+        winners.forEach(pid => {
+          if(!ps[pid]) return;
+
+          if(m.type === 'Par') ps[pid].PV += 1;
+          else ps[pid].SV += 1;
+
+          ps[pid].P += value;
+        });
+
+      }else if(winner === 'D'){
+        const share = value / 2;
+        playersInMatch.forEach(pid => {
+          if(!ps[pid]) return;
+          ps[pid].D += 1;
+          ps[pid].P += share;
+        });
+      }
+
+      // Prestationskolumner + prestationspoäng
+      const byPlayer = (m.book && m.book.byPlayer && typeof m.book.byPlayer === 'object') ? m.book.byPlayer : {};
+      playersInMatch.forEach(pid => {
+        if(!ps[pid]) return;
+        const s = byPlayer[pid] || {};
+
+        const birdies = Number(s.birdies) || 0;
+        const eagles = Number(s.eagles) || 0;
+        const albatross = Number(s.albatross) || 0;
+        const hio = Number(s.hio) || 0;
+        const nf = Number(s.ctp) || 0;
+        const ld = Number(s.ld) || 0;
+
+        ps[pid].B += birdies;
+        ps[pid].E += eagles;
+        ps[pid].A += albatross;
+        ps[pid].HIO += hio;
+        ps[pid].NF += nf;
+        ps[pid].LD += ld;
+
+        ps[pid].P += (birdies * W_BIRDIE)
+                  + (eagles * W_EAGLE)
+                  + (albatross * W_ALBATROSS)
+                  + (hio * W_HIO)
+                  + (nf * W_NF)
+                  + (ld * W_LD);
+      });
+    });
+
+    // FF: -5 till spelare i ledande lag
+    const leadingTeamId = computeTeamTotalsForFF(state).leadingTeamId;
+    if(leadingTeamId){
+      players.forEach(p => {
+        if(p.teamId === leadingTeamId && ps[p.id]) ps[p.id].FF += -5;
+      });
+    }
+
+    // FF: topp 3 i P får -3/-2/-1
+    const ranked = players.slice().sort((a,b) => {
+      const A = ps[a.id] || {};
+      const B = ps[b.id] || {};
+
+      const aP  = Number(A.P)  || 0;
+      const bP  = Number(B.P)  || 0;
+
+      const aSV = Number(A.SV) || 0;
+      const bSV = Number(B.SV) || 0;
+
+      const aPV = Number(A.PV) || 0;
+      const bPV = Number(B.PV) || 0;
+
+      const aD  = Number(A.D)  || 0;
+      const bD  = Number(B.D)  || 0;
+
+      const aB  = Number(A.B)  || 0;
+      const bB  = Number(B.B)  || 0;
+
+      const aE  = Number(A.E)  || 0;
+      const bE  = Number(B.E)  || 0;
+
+      const aAl = Number(A.A)  || 0;
+      const bAl = Number(B.A)  || 0;
+
+      const aH  = Number(A.HIO)|| 0;
+      const bH  = Number(B.HIO)|| 0;
+
+      const dir = -1;
+
+      if(bP !== aP) return dir * (aP - bP);
+      if(bSV !== aSV) return dir * (aSV - bSV);
+      if(bPV !== aPV) return dir * (aPV - bPV);
+
+      if(bAl !== aAl) return dir * (aAl - bAl);
+      if(bH  !== aH)  return dir * (aH  - bH);
+      if(bE  !== aE)  return dir * (aE  - bE);
+      if(bB  !== aB)  return dir * (aB  - bB);
+
+      const aM = aPV + aSV + aD;
+      const bM = bPV + bSV + bD;
+      if(aM !== bM) return aM - bM;
+
+      return (a.name||'').localeCompare(b.name||'', 'sv');
+    });
+
+    const topFF = [-3, -2, -1];
+    for(let i=0;i<3 && i<ranked.length;i++){
+      const pid = ranked[i].id;
+      if(ps[pid]) ps[pid].FF += topFF[i];
+    }
+
+    return { players, ps };
+  }
+
+  function renderPlayerStats(state){
+    const body = document.getElementById('playerStatsBody');
+    if(!body) return;
+
+    body.innerHTML = '';
+
+    const { players, ps } = computePlayerStats(state);
+
+    // ✅ Default-sort (som admin): P ↓, SV ↓, PV ↓, A ↓, HIO ↓, E ↓, B ↓, färre matcher, namn
+    players.sort((p1, p2) => {
+      const A = ps[p1.id] || {};
+      const B = ps[p2.id] || {};
+
+      const aP  = Number(A.P)  || 0;
+      const bP  = Number(B.P)  || 0;
+      if(bP !== aP) return bP - aP;
+
+      const aSV = Number(A.SV) || 0;
+      const bSV = Number(B.SV) || 0;
+      if(bSV !== aSV) return bSV - aSV;
+
+      const aPV = Number(A.PV) || 0;
+      const bPV = Number(B.PV) || 0;
+      if(bPV !== aPV) return bPV - aPV;
+
+      const aAl = Number(A.A)  || 0;
+      const bAl = Number(B.A)  || 0;
+      if(bAl !== aAl) return bAl - aAl;
+
+      const aH  = Number(A.HIO) || 0;
+      const bH  = Number(B.HIO) || 0;
+      if(bH !== aH) return bH - aH;
+
+      const aE  = Number(A.E)  || 0;
+      const bE  = Number(B.E)  || 0;
+      if(bE !== aE) return bE - aE;
+
+      const aB  = Number(A.B)  || 0;
+      const bB  = Number(B.B)  || 0;
+      if(bB !== aB) return bB - aB;
+
+      // färre matcher spelade (PV+SV+D) är bättre
+      const aM = (Number(A.PV)||0) + (Number(A.SV)||0) + (Number(A.D)||0);
+      const bM = (Number(B.PV)||0) + (Number(B.SV)||0) + (Number(B.D)||0);
+      if(aM !== bM) return aM - bM;
+
+      return (p1.name || '').localeCompare(p2.name || '', 'sv');
+    });
+
+    if(players.length === 0){
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 14;
+      td.textContent = 'Inga spelare skapade ännu.';
+      td.style.textAlign = 'left';
+      td.style.color = 'var(--muted)';
+      tr.appendChild(td);
+      body.appendChild(tr);
+      return;
+    }
+
+    for(const p of players){
+      const tr = document.createElement('tr');
+
+      const tdName = document.createElement('td');
+      const dot = document.createElement('span');
+      dot.className = 'team-dot';
+      dot.style.background = teamColorById(state, p.teamId);
+      const name = document.createElement('span');
+      name.textContent = p.name || '';
+      tdName.appendChild(dot);
+      tdName.appendChild(name);
+      tr.appendChild(tdName);
+
+      const s = ps[p.id] || { SM:0, PV:0, SV:0, D:0, F:0, B:0, E:0, A:0, HIO:0, NF:0, LD:0, P:0, FF:0 };
+
+      const cells = [
+        s.SM, s.PV, s.SV, s.D, s.F, s.B, s.E, s.A, s.HIO, s.NF, s.LD, fmtPts(s.P), fmtPts(s.FF)
+      ];
+
+      cells.forEach(v => {
+        const td = document.createElement('td');
+        td.textContent = String(v).replace('.', ',');
+        tr.appendChild(td);
+      });
+
+      body.appendChild(tr);
+    }
+  }
+
+  // ===== Sortering (som admin) =====
+  function makeTableSortable(table, defaultIndex, opts){
+    if(!table) return;
+    const thead = table.querySelector('thead');
+    const tbody = table.querySelector('tbody');
+    if(!thead || !tbody) return;
+
+    const sortState = { index: defaultIndex || 0, dir: -1 };
+    const tiebreakOnP = !!opts?.tiebreakOnP;
+    const mode = opts?.mode || '';
+    const idx = opts?.idx || {};
+
+    const cmpLocale = (a,b) => (a||'').localeCompare(b||'', 'sv');
+
+    function getCellText(row, i){
+      const td = row.children[i];
+      return td ? (td.textContent || '').trim() : '';
+    }
+    function numFromCell(row, i){
+      const s = getCellText(row, i).replace(',', '.');
+      const n = Number(s);
+      return isNaN(n) ? 0 : n;
+    }
+    function nameFromRow(row){ return getCellText(row, 0); }
+
+    function cmpTeamByP(a,b,dir){
+      const aP = numFromCell(a, idx.P);
+      const bP = numFromCell(b, idx.P);
+      if(bP !== aP) return dir * (aP - bP);
+
+      const aPM = numFromCell(a, idx.PM);
+      const bPM = numFromCell(b, idx.PM);
+      if(bPM !== aPM) return dir * (aPM - bPM);
+
+      const aSV = numFromCell(a, idx.SV);
+      const bSV = numFromCell(b, idx.SV);
+      if(bSV !== aSV) return dir * (aSV - bSV);
+
+      return cmpLocale(nameFromRow(a), nameFromRow(b));
+    }
+
+    function cmpPlayerByP(a,b,dir){
+      const aP = numFromCell(a, idx.P);
+      const bP = numFromCell(b, idx.P);
+      if(bP !== aP) return dir * (aP - bP);
+
+      const aSV = numFromCell(a, idx.SV);
+      const bSV = numFromCell(b, idx.SV);
+      if(bSV !== aSV) return dir * (aSV - bSV);
+
+      const aPV = numFromCell(a, idx.PV);
+      const bPV = numFromCell(b, idx.PV);
+      if(bPV !== aPV) return dir * (aPV - bPV);
+
+      const aA = numFromCell(a, idx.A);
+      const bA = numFromCell(b, idx.A);
+      if(bA !== aA) return dir * (aA - bA);
+
+      const aH = numFromCell(a, idx.HIO);
+      const bH = numFromCell(b, idx.HIO);
+      if(bH !== aH) return dir * (aH - bH);
+
+      const aE = numFromCell(a, idx.E);
+      const bE = numFromCell(b, idx.E);
+      if(bE !== aE) return dir * (aE - bE);
+
+      const aB = numFromCell(a, idx.B);
+      const bB = numFromCell(b, idx.B);
+      if(bB !== aB) return dir * (aB - bB);
+
+      const aM = numFromCell(a, idx.PV) + numFromCell(a, idx.SV) + numFromCell(a, idx.D);
+      const bM = numFromCell(b, idx.PV) + numFromCell(b, idx.SV) + numFromCell(b, idx.D);
+      if(aM !== bM) return (-dir) * (aM - bM);
+
+      return cmpLocale(nameFromRow(a), nameFromRow(b));
+    }
+
+    function sortRows(i, dir){
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      rows.sort((a,b) => {
+        if(tiebreakOnP && i === idx.P){
+          if(mode === 'team') return cmpTeamByP(a,b,dir);
+          if(mode === 'player') return cmpPlayerByP(a,b,dir);
+        }
+
+        const av = getCellText(a, i);
+        const bv = getCellText(b, i);
+
+        const an = Number(av.replace(',', '.'));
+        const bn = Number(bv.replace(',', '.'));
+
+        const aIsNum = !isNaN(an);
+        const bIsNum = !isNaN(bn);
+
+        if(aIsNum && bIsNum) return dir * (an - bn);
+        return dir * cmpLocale(av.toLowerCase(), bv.toLowerCase());
+      });
+
+      rows.forEach(r => tbody.appendChild(r));
+    }
+
+    Array.from(thead.querySelectorAll('th')).forEach((th, i) => {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', () => {
+        if(sortState.index === i) sortState.dir *= -1;
+        else { sortState.index = i; sortState.dir = -1; }
+        sortRows(sortState.index, sortState.dir);
+      });
+    });
+
+    sortRows(sortState.index, sortState.dir);
+  }
+
+  function enableStatTableSorting(){
+    const lagTable = document.querySelector('#lagStatsBlock table');
+    makeTableSortable(lagTable, 7, {
+      tiebreakOnP: true,
+      mode: 'team',
+      idx: { SM:1, PV:2, SV:3, PM:6, P:7 }
+    });
+
+    const playerTable = document.querySelector('#playerStatsBlock table');
+    makeTableSortable(playerTable, 12, {
+      tiebreakOnP: true,
+      mode: 'player',
+      idx: { PV:2, SV:3, D:4, B:6, E:7, A:8, HIO:9, P:12 }
+    });
+  }
+
+  // =========================
+  // PUBLIK STATISTIK UI
+  // =========================
+  const statsTabLag = document.getElementById('tab-lagstats');
+  const statsTabPlayer = document.getElementById('tab-playerstats');
+
+  function setPublicStatsTab(which){
+    const isLag = which === 'lag';
+
+    if(statsTabLag){
+      statsTabLag.classList.toggle('is-active', isLag);
+      statsTabLag.setAttribute('aria-selected', isLag ? 'true' : 'false');
+    }
+    if(statsTabPlayer){
+      statsTabPlayer.classList.toggle('is-active', !isLag);
+      statsTabPlayer.setAttribute('aria-selected', !isLag ? 'true' : 'false');
+    }
+
+    const lagStatsBlock = document.getElementById('lagStatsBlock');
+    const playerStatsBlock = document.getElementById('playerStatsBlock');
+    if(lagStatsBlock) lagStatsBlock.style.display = isLag ? '' : 'none';
+    if(playerStatsBlock) playerStatsBlock.style.display = isLag ? 'none' : '';
+  }
+
+  if(statsTabLag) statsTabLag.addEventListener('click', () => setPublicStatsTab('lag'));
+  if(statsTabPlayer) statsTabPlayer.addEventListener('click', () => setPublicStatsTab('player'));
+
+  function renderCompetitionInfo(state){
+    const block = document.getElementById('competitionInfoBlock');
+    const content = document.getElementById('competitionInfoContent');
+    if(!block || !content) return;
+
+    const html = (state && typeof state.competitionInfoHtml === 'string') ? state.competitionInfoHtml.trim() : '';
+    if(!html){
+      block.style.display = 'none';
+      content.innerHTML = '';
+      return;
+    }
+
+    block.style.display = '';
+    content.innerHTML = html;
+  }
+
+  function renderPublicStats(){
+    const state = loadState();
+    renderLagStats(state);
+    renderPlayerStats(state);
+    renderCompetitionInfo(state);
+    enableStatTableSorting();
+  }
+
+  // =========================
+  // BOOT
+  // =========================
+  renderScorebar();
+  renderRoundsAndMatches();
+  renderPublicStats();
+  setPublicStatsTab('lag');
+
+  window.addEventListener('storage', (e) => {
+    if(e.key === KEY){
+      renderScorebar();
+      renderRoundsAndMatches();
+      renderPublicStats();
+    }
+  });
+})();
+</script>
+</body>
+</html>
