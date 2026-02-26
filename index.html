@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Tour de Nerja – Startsida</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
 <style>
 :root{
   --bg:#0a0a0b;
@@ -647,15 +649,14 @@ h1{
         <br>6) Flest birdies (B).
       </div>
     </section>
+  </section>
 
-    <section class="block" id="competitionInfoBlock" style="display:none; margin-top:14px">
-      <div class="section-head" style="margin-bottom:12px">
-        <div class="section-title">Tävlingsinformation</div>
-      </div>
-
-      <div id="competitionInfoContent" style="line-height:1.6;"></div>
-    </section>
-
+  <section class="block" id="competitionInfoBlock" style="display:none; margin-top:14px">
+    <div class="section-head" style="margin-bottom:12px">
+      <div class="section-title">Tävlingsinformation</div>
+    </div>
+  
+    <div id="competitionInfoContent" style="line-height:1.6;"></div>
   </section>
 
   <section id="statistik" style="height:1px;"></section>
@@ -665,6 +666,42 @@ h1{
 (function(){
   const KEY = 'tdn_admin_state_v2';
 
+    // ===== Supabase (PUBLIC läser härifrån) =====
+  const SUPABASE_URL = "https://sjquderacxhbrewlndnh.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNqcXVkZXJhY3hoYnJld2xuZG5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxMTQ5MTMsImV4cCI6MjA4NzY5MDkxM30.6kS_RzELUCMz0LuPgSbdHPG8TAfvRnNkzsjWgf9mTgo";
+  const STATE_ROW_ID = "live";
+
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Cache så vi slipper skriva om alla render-funktioner
+  let CACHED_STATE = {teams:[], players:[], rounds:[], matches:[], competitionInfoHtml:''};
+
+  async function fetchStateFromSupabase(){
+    const { data, error } = await supabase
+      .from("tdn_state")
+      .select("state")
+      .eq("id", STATE_ROW_ID)
+      .single();
+
+    if(error){
+      console.error("Supabase: kunde inte hämta state", error);
+      return CACHED_STATE;
+    }
+
+    const s = data && data.state ? data.state : {};
+    // Återanvänd din sanitizeState så allt blir som du förväntar dig
+    const out = sanitizeState({
+      teams: Array.isArray(s.teams) ? s.teams : [],
+      players: Array.isArray(s.players) ? s.players : [],
+      rounds: Array.isArray(s.rounds) ? s.rounds : [],
+      matches: Array.isArray(s.matches) ? s.matches : [],
+      competitionInfoHtml: (typeof s.competitionInfoHtml === 'string') ? s.competitionInfoHtml : ''
+    });
+
+    CACHED_STATE = out;
+    return out;
+  }
+  
   // =========================
   // Helpers
   // =========================
@@ -672,22 +709,9 @@ h1{
     el.innerHTML = `<div class="empty">${text}</div>`;
   }
 
-  function loadState(){
-    try{
-      const raw = localStorage.getItem(KEY);
-      if(!raw) return {teams:[], players:[], rounds:[], matches:[], competitionInfoHtml:''};
-      const d = JSON.parse(raw);
-      return sanitizeState({
-        teams: Array.isArray(d.teams) ? d.teams : [],
-        players: Array.isArray(d.players) ? d.players : [],
-        rounds: Array.isArray(d.rounds) ? d.rounds : [],
-        matches: Array.isArray(d.matches) ? d.matches : [],
-        competitionInfoHtml: (typeof d.competitionInfoHtml === 'string') ? d.competitionInfoHtml : ''
-      });
-    }catch(e){
-      return {teams:[], players:[], rounds:[], matches:[], competitionInfoHtml:''};
+    function loadState(){
+      return CACHED_STATE;
     }
-  }
 
   function sanitizeState(state){
     state = state && typeof state === 'object' ? state : {teams:[], players:[], rounds:[], matches:[]};
@@ -1967,20 +1991,25 @@ h1{
   }
 
   // =========================
-  // BOOT
+  // BOOT (läs från Supabase)
   // =========================
-  renderScorebar();
-  renderRoundsAndMatches();
-  renderPublicStats();
-  setPublicStatsTab('lag');
+  (async function init(){
+    await fetchStateFromSupabase();
 
-  window.addEventListener('storage', (e) => {
-    if(e.key === KEY){
+    renderScorebar();
+    renderRoundsAndMatches();
+    renderPublicStats();
+    setPublicStatsTab('lag');
+
+    // Auto-uppdatera public var 10:e sekund (rookie-säkert)
+    setInterval(async () => {
+      await fetchStateFromSupabase();
       renderScorebar();
       renderRoundsAndMatches();
       renderPublicStats();
-    }
-  });
+      // behåll aktiv flik som den är (du styr den via klick)
+    }, 10000);
+  })();
 })();
 </script>
 </body>
