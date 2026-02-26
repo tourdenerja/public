@@ -118,7 +118,6 @@ nav a:hover{
 }
 .btn:hover{filter:brightness(1.06)}
 
-
 /* ===== Hero ===== */
 .hero{padding:72px 0 18px}
 
@@ -569,7 +568,7 @@ h1{
     <div class="matches-list" id="matchesList"></div>
   </section>
 
-  <!-- ✅ NY BOX: Statistik UNDER matchboxen -->
+
   <section class="block" id="publicStatsBox">
     <div class="tabs" role="tablist" aria-label="Statistikflikar">
       <button class="tabbtn is-active" type="button" role="tab" aria-selected="true"
@@ -582,7 +581,7 @@ h1{
       </button>
     </div>
 
-    <!-- Lagstatistik (markup som admin) -->
+
     <section class="block" id="lagStatsBlock" style="margin-top:14px">
       <div class="table-wrap">
         <table class="scoretable">
@@ -594,7 +593,7 @@ h1{
               <th title="Singelmatchvinster">SV</th>
               <th title="Delade matcher">D</th>
               <th title="Förlorade matcher">F</th>
-              <th title="Matchhålvinstskillnad">+/-</th>
+              <th title="Matchhålvinstskillnad">+</th>
               <th title="Poäng">P</th>
             </tr>
           </thead>
@@ -604,12 +603,12 @@ h1{
 
       <div class="tiebreak-note">
         Vid lika poäng avgör:
-        <br>1) Matchhålvinstskillnad (+/-).
+        <br>1) Matchhålvinstskillnad (+).
         <br>2) Flest vunna singelmatcher (SV).
       </div>
     </section>
 
-    <!-- Spelarstatistik (markup som admin) -->
+
     <section class="block" id="playerStatsBlock" style="display:none; margin-top:14px">
       <div class="table-wrap">
         <table class="scoretable">
@@ -645,6 +644,15 @@ h1{
         <br>6) Flest birdies (B).
       </div>
     </section>
+
+    <section class="block" id="competitionInfoBlock" style="display:none; margin-top:14px">
+      <div class="section-head" style="margin-bottom:12px">
+        <div class="section-title">Tävlingsinformation</div>
+      </div>
+
+      <div id="competitionInfoContent" style="line-height:1.6;"></div>
+    </section>
+
   </section>
 
   <section id="statistik" style="height:1px;"></section>
@@ -664,16 +672,17 @@ h1{
   function loadState(){
     try{
       const raw = localStorage.getItem(KEY);
-      if(!raw) return {teams:[], players:[], rounds:[], matches:[]};
+      if(!raw) return {teams:[], players:[], rounds:[], matches:[], competitionInfoHtml:''};
       const d = JSON.parse(raw);
       return sanitizeState({
         teams: Array.isArray(d.teams) ? d.teams : [],
         players: Array.isArray(d.players) ? d.players : [],
         rounds: Array.isArray(d.rounds) ? d.rounds : [],
-        matches: Array.isArray(d.matches) ? d.matches : []
+        matches: Array.isArray(d.matches) ? d.matches : [],
+        competitionInfoHtml: (typeof d.competitionInfoHtml === 'string') ? d.competitionInfoHtml : ''
       });
     }catch(e){
-      return {teams:[], players:[], rounds:[], matches:[]};
+      return {teams:[], players:[], rounds:[], matches:[], competitionInfoHtml:''};
     }
   }
 
@@ -962,7 +971,6 @@ h1{
     }
   }
 
-
   function renderScorebar(){
     const state = loadState();
     const t = computeTeamPoints(state);
@@ -997,7 +1005,7 @@ h1{
 
       if(empty){
         empty.style.display = '';
-        setEmpty(empty, 'Inga lag ännu. Lägg till två lag i Admin.');
+        setEmpty(empty, 'Inga lag tillagd.');
       }
       return;
     }
@@ -1190,8 +1198,8 @@ h1{
 
     if(rounds.length === 0){
       tabs.innerHTML = '';
-      sub.textContent = 'Inga ronder ännu.';
-      setEmpty(list, 'Inga matcher ännu. Lägg till en rond i Admin.');
+      sub.textContent = 'Inga ronder tillagd.';
+      setEmpty(list, 'Inga matcher tillagd.');
       return;
     }
 
@@ -1224,7 +1232,7 @@ h1{
 
     list.innerHTML = '';
     if(ms.length === 0){
-      setEmpty(list, 'Inga matcher i denna rond ännu.');
+      setEmpty(list, 'Inga matcher tillagd.');
       return;
     }
 
@@ -1371,7 +1379,7 @@ h1{
       return;
     }
 
-    // +/- endast vid avgjord match: delta = 19 - wonOnHole
+    // + endast vid avgjord match: delta = 19 - wonOnHole
     if((winner === 'A' || winner === 'B') && wonOnHole >= 1 && wonOnHole <= 18){
       const delta = 19 - wonOnHole;
       if(winner === 'A'){
@@ -1395,7 +1403,7 @@ h1{
       S:0,   // SV
       L:0,   // F
       D:0,
-      PM:0,  // +/-
+      PM:0,  // +
       P:0
     });
 
@@ -1462,7 +1470,7 @@ h1{
       return (x % 1 === 0) ? String(x) : x.toFixed(1).replace('.', ',');
     }
 
-    // ✅ Default-sort (som admin): P ↓, +/- (PM) ↓, SV ↓, PV ↓, namn
+    // ✅ Default-sort (som admin): P ↓, + (PM) ↓, SV ↓, PV ↓, namn
     const teamsSorted = teams.slice().sort((t1, t2) => {
       const a = ts[t1.id] || {};
       const b = ts[t2.id] || {};
@@ -1507,7 +1515,7 @@ h1{
         s.S || 0,    // SV
         s.D || 0,    // D
         s.L || 0,    // F
-        s.PM || 0,   // +/-
+        s.PM || 0,   // +
         fmtTeamPts(s.P || 0)
       ];
 
@@ -1928,10 +1936,27 @@ h1{
   if(statsTabLag) statsTabLag.addEventListener('click', () => setPublicStatsTab('lag'));
   if(statsTabPlayer) statsTabPlayer.addEventListener('click', () => setPublicStatsTab('player'));
 
+  function renderCompetitionInfo(state){
+    const block = document.getElementById('competitionInfoBlock');
+    const content = document.getElementById('competitionInfoContent');
+    if(!block || !content) return;
+
+    const html = (state && typeof state.competitionInfoHtml === 'string') ? state.competitionInfoHtml.trim() : '';
+    if(!html){
+      block.style.display = 'none';
+      content.innerHTML = '';
+      return;
+    }
+
+    block.style.display = '';
+    content.innerHTML = html;
+  }
+
   function renderPublicStats(){
     const state = loadState();
     renderLagStats(state);
     renderPlayerStats(state);
+    renderCompetitionInfo(state);
     enableStatTableSorting();
   }
 
