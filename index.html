@@ -514,6 +514,153 @@ h1{
 
 #competitionInfoBlock{ scroll-margin-top:120px; }
 
+/* =========================
+   MOBILFIX – PUBLIC (INDEX)
+   Klistra längst ned i <style>
+   ========================= */
+
+/* Gör att padding/bredder känns bra på alla skärmar */
+:root{
+  --pad: 18px;
+  --pad-sm: 14px;
+}
+
+/* Lite snällare typografi */
+h1{ font-size: clamp(28px, 6vw, 44px); }
+.lead{ font-size: clamp(14px, 3.6vw, 18px); line-height: 1.45; }
+
+/* Gör att hela sidan aldrig “trycker ut” i sidled */
+html, body{ max-width: 100%; overflow-x: hidden; }
+
+/* Wrap blir tightare på mobil */
+.wrap{ padding-left: var(--pad); padding-right: var(--pad); }
+
+/* 1) Header: gör loggan mindre + nav scrollbart på mobil */
+@media (max-width: 720px){
+  :root{
+    --header-h: 56px; /* om du har denna variabel */
+    --pad: var(--pad-sm);
+  }
+
+  /* om du har .logo som sticker ner */
+  .logo{
+    height: 64px !important;
+    top: 10px !important;  /* om du använder position:relative; top:... */
+  }
+
+  /* nav/rad med länkar */
+  nav{
+    margin-left: 92px !important; /* brukar behövas när loggan sticker ut */
+    gap: 8px !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  nav a{
+    scroll-snap-align: start;
+    padding: 9px 11px !important;
+    border-radius: 14px !important;
+    font-size: 14px;
+  }
+
+  /* block/boxar */
+  .block{
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  /* knappar */
+  .btn{
+    padding: 9px 12px !important;
+    border-radius: 14px !important;
+    font-size: 14px;
+  }
+}
+
+/* 2) Scorebar: gör att den inte blir “för bred” på mobil
+   Anta att du har #scorebarBlock med en bar inuti */
+@media (max-width: 720px){
+  #scorebarBlock{
+    padding: 12px !important;
+  }
+  .bar-head{
+    gap: 10px !important;
+  }
+
+  /* Om din scorebar är två lag vänster/höger, låt den wrap:a */
+  .bar-team{
+    font-size: 14px !important;
+    max-width: 44vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Om du har segment / "14 segment" */
+  .scorebar,
+  .bar,
+  .bar-track{
+    width: 100% !important;
+  }
+}
+
+/* 3) Tabs (Runda 1–4): se till att de wrappar snyggt */
+@media (max-width: 720px){
+  .tabs,
+  .round-tabs,
+  .tabrow{
+    justify-content: flex-start !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px !important;
+    padding-bottom: 2px;
+  }
+  .tabbtn,
+  .round-tab{
+    flex: 0 0 auto;
+    font-size: 14px !important;
+    padding: 9px 12px !important;
+    border-radius: 14px !important;
+  }
+}
+
+/* 4) Tabeller: gör dem horisontellt scrollbara på mobil */
+.table-wrap,
+.tableWrap,
+.tablebox{
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Om du har en <table class="scoretable"> eller liknande */
+table{
+  max-width: 100%;
+}
+
+@media (max-width: 720px){
+  .scoretable{
+    min-width: 720px; /* tvingar scroll i stället för att krossa layout */
+  }
+  .scoretable th, .scoretable td{
+    padding: 9px 10px !important;
+    font-size: 14px !important;
+  }
+
+  /* Sticky första kolumnen (namn) om du vill */
+  .scoretable th:first-child,
+  .scoretable td:first-child{
+    position: sticky;
+    left: 0;
+    background: rgba(10,10,11,.96); /* matcha din bakgrund */
+    z-index: 2;
+  }
+}
+
+/* 5) Små förbättringar för touch */
+button, a{ touch-action: manipulation; }
+  
 </style>
 </head>
 
