@@ -660,6 +660,60 @@ table{
 
 /* 5) Små förbättringar för touch */
 button, a{ touch-action: manipulation; }
+
+/* ======= DYNAMISK MOBILNAV ======= */
+.nav{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* Själva “raden” som swipe:as */
+.nav-scroller{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none; /* Firefox */
+  scroll-snap-type:x mandatory;
+  padding:6px 2px;
+  max-width: 100%;
+}
+.nav-scroller::-webkit-scrollbar{ display:none; }
+
+.nav-scroller a{
+  flex:0 0 auto;
+  scroll-snap-align:start;
+  padding:10px 12px;
+  border-radius:16px;
+  color:var(--muted);
+  white-space:nowrap;
+}
+.nav-scroller a:hover{ background:rgba(255,255,255,.06); color:var(--text); }
+.nav-scroller a.is-active{ background:rgba(255,255,255,.10); color:var(--text); }
+
+/* Pilar */
+.nav-arrow{
+  display:none; /* visas på mobil */
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  border-radius:14px;
+  width:36px;
+  height:36px;
+  font-weight:900;
+  cursor:pointer;
+}
+.nav-arrow:disabled{
+  opacity:.35;
+  cursor:default;
+}
+
+/* Mobil: visa pilar + gör nav tight */
+@media (max-width: 720px){
+  .nav-arrow{ display:inline-flex; align-items:center; justify-content:center; }
+  .nav-scroller a{ padding:9px 11px; border-radius:14px; font-size:14px; }
+}
   
 </style>
 </head>
@@ -669,10 +723,17 @@ button, a{ touch-action: manipulation; }
   <div class="top">
     <a class="brand" href="#"><img class="logo" src="tour-de-nerja-logo.png" alt=""></a>
 
-    <nav aria-label="Meny">
-      <a href="#tourdenerja">Tour de Nerja</a>
-      <a href="#statistik">Statistik</a>
-      <a href="#competitionInfoBlock">Tävlingsinformation</a>
+    <nav class="nav" aria-label="Meny">
+      <button class="nav-arrow left" type="button" aria-label="Skrolla vänster">‹</button>
+    
+      <div class="nav-scroller" id="navScroller">
+        <a href="#tourdenerja">Tour de Nerja</a>
+        <a href="#statistik">Statistik</a>
+        <a href="#competitionInfoBlock">Tävlingsinformation</a>
+        <!-- lägg fler länkar här utan att ändra JS -->
+      </div>
+    
+      <button class="nav-arrow right" type="button" aria-label="Skrolla höger">›</button>
     </nav>
   </div>
 </header>
@@ -2157,6 +2218,61 @@ button, a{ touch-action: manipulation; }
       // behåll aktiv flik som den är (du styr den via klick)
     }, 10000);
   })();
+})();
+</script>
+  <script>
+(function(){
+  const scroller = document.getElementById('navScroller');
+  if(!scroller) return;
+
+  const nav = scroller.closest('.nav');
+  const btnL = nav?.querySelector('.nav-arrow.left');
+  const btnR = nav?.querySelector('.nav-arrow.right');
+
+  function updateArrows(){
+    if(!btnL || !btnR) return;
+    const max = scroller.scrollWidth - scroller.clientWidth;
+    const x = scroller.scrollLeft;
+    btnL.disabled = x <= 2;
+    btnR.disabled = x >= (max - 2);
+  }
+
+  function scrollByAmount(dir){
+    const amount = Math.max(180, Math.floor(scroller.clientWidth * 0.65));
+    scroller.scrollBy({ left: dir * amount, behavior: 'smooth' });
+  }
+
+  btnL?.addEventListener('click', () => scrollByAmount(-1));
+  btnR?.addEventListener('click', () => scrollByAmount(1));
+
+  scroller.addEventListener('scroll', updateArrows, { passive:true });
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+
+  // ===== Aktiv länk via IntersectionObserver =====
+  const links = Array.from(scroller.querySelectorAll('a[href^="#"]'));
+  const targets = links
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+
+  if(targets.length){
+    const obs = new IntersectionObserver((entries) => {
+      // välj den som är mest synlig
+      const visible = entries.filter(e => e.isIntersecting)
+                             .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if(!visible) return;
+
+      links.forEach(a => a.classList.remove('is-active'));
+      const activeLink = links.find(a => a.getAttribute('href') === '#' + visible.target.id);
+      if(activeLink){
+        activeLink.classList.add('is-active');
+        // centrera aktiv länk i scroller på mobil
+        activeLink.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+      }
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: [0.15, 0.35, 0.55, 0.75] });
+
+    targets.forEach(t => obs.observe(t));
+  }
 })();
 </script>
 </body>
