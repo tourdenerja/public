@@ -549,19 +549,12 @@ html, body{ max-width: 100%; overflow-x: hidden; }
   }
 
   /* nav/rad med länkar */
+  @media (max-width: 720px){
   nav{
-    margin-left: 92px !important; /* brukar behövas när loggan sticker ut */
+    margin-left: 92px !important;
     gap: 8px !important;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-  }
-
-  nav a{
-    scroll-snap-align: start;
-    padding: 9px 11px !important;
-    border-radius: 14px !important;
-    font-size: 14px;
+    overflow: visible;          /* <-- viktigt */
+    scroll-snap-type: none;     /* <-- viktigt */
   }
 
   /* block/boxar */
@@ -782,7 +775,7 @@ button, a{ touch-action: manipulation; }
   </section>
 
 
-  <section class="block" id="publicStatsBox">
+  <section class="block" id="statistik">
     <div class="tabs" role="tablist" aria-label="Statistikflikar">
       <button class="tabbtn is-active" type="button" role="tab" aria-selected="true"
               aria-controls="lagStatsBlock" id="tab-lagstats">
@@ -859,15 +852,13 @@ button, a{ touch-action: manipulation; }
     </section>
   </section>
 
-  <section class="block" id="competitionInfoBlock" style="display:none; margin-top:14px">
+  <section class="block" id="competitionInfoBlock" hidden style="margin-top:14px">
     <div class="section-head" style="margin-bottom:12px">
       <div class="section-title">Tävlingsinformation</div>
     </div>
   
     <div id="competitionInfoContent" style="line-height:1.6;"></div>
   </section>
-
-  <section id="statistik" style="height:1px;"></section>
 </main>
 
 <script>
@@ -2176,18 +2167,9 @@ button, a{ touch-action: manipulation; }
     const content = document.getElementById('competitionInfoContent');
     if(!block || !content) return;
 
-    const html = (state && typeof state.competitionInfoHtml === 'string') ? state.competitionInfoHtml.trim() : '';
-    if(!html){
-      block.style.display = 'none';
-      content.innerHTML = '';
-      return;
-    }
-
-    block.style.display = '';
-    block.style.visibility = '';
-    block.style.height = '';
-    block.style.overflow = '';
-    content.innerHTML = html;
+  const html = (state && typeof state.competitionInfoHtml === 'string') ? state.competitionInfoHtml.trim() : '';
+    block.hidden = !html;
+    content.innerHTML = html || '';
   }
 
   function renderPublicStats(){
