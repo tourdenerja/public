@@ -707,7 +707,6 @@ button, a{ touch-action: manipulation; }
   .nav-arrow{ display:inline-flex; align-items:center; justify-content:center; }
   .nav-scroller a{ padding:9px 11px; border-radius:14px; font-size:14px; }
 }
-  
 </style>
 </head>
 
@@ -2189,61 +2188,6 @@ button, a{ touch-action: manipulation; }
       // behåll aktiv flik som den är (du styr den via klick)
     }, 10000);
   })();
-})();
-</script>
-  <script>
-(function(){
-  const scroller = document.getElementById('navScroller');
-  if(!scroller) return;
-
-  const nav = scroller.closest('.nav');
-  const btnL = nav?.querySelector('.nav-arrow.left');
-  const btnR = nav?.querySelector('.nav-arrow.right');
-
-  function updateArrows(){
-    if(!btnL || !btnR) return;
-    const max = scroller.scrollWidth - scroller.clientWidth;
-    const x = scroller.scrollLeft;
-    btnL.disabled = x <= 2;
-    btnR.disabled = x >= (max - 2);
-  }
-
-  function scrollByAmount(dir){
-    const amount = Math.max(180, Math.floor(scroller.clientWidth * 0.65));
-    scroller.scrollBy({ left: dir * amount, behavior: 'smooth' });
-  }
-
-  btnL?.addEventListener('click', () => scrollByAmount(-1));
-  btnR?.addEventListener('click', () => scrollByAmount(1));
-
-  scroller.addEventListener('scroll', updateArrows, { passive:true });
-  window.addEventListener('resize', updateArrows);
-  updateArrows();
-
-  // ===== Aktiv länk via IntersectionObserver =====
-  const links = Array.from(scroller.querySelectorAll('a[href^="#"]'));
-  const targets = links
-    .map(a => document.querySelector(a.getAttribute('href')))
-    .filter(Boolean);
-
-  if(targets.length){
-    const obs = new IntersectionObserver((entries) => {
-      // välj den som är mest synlig
-      const visible = entries.filter(e => e.isIntersecting)
-                             .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if(!visible) return;
-
-      links.forEach(a => a.classList.remove('is-active'));
-      const activeLink = links.find(a => a.getAttribute('href') === '#' + visible.target.id);
-      if(activeLink){
-        activeLink.classList.add('is-active');
-        // centrera aktiv länk i scroller på mobil
-        activeLink.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
-      }
-    }, { rootMargin: '-35% 0px -55% 0px', threshold: [0.15, 0.35, 0.55, 0.75] });
-
-    targets.forEach(t => obs.observe(t));
-  }
 })();
 </script>
 </body>
